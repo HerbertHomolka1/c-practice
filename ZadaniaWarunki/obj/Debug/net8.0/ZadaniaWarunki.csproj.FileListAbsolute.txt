@@ -1,0 +1,4 @@
+/home/juansebastian/aspnet/ZadaniaWarunki/obj/Debug/net8.0/ZadaniaWarunki.GeneratedMSBuildEditorConfig.editorconfig
+/home/juansebastian/aspnet/ZadaniaWarunki/obj/Debug/net8.0/ZadaniaWarunki.AssemblyInfoInputs.cache
+/home/juansebastian/aspnet/ZadaniaWarunki/obj/Debug/net8.0/ZadaniaWarunki.AssemblyInfo.cs
+/home/juansebastian/aspnet/ZadaniaWarunki/obj/Debug/net8.0/ZadaniaWarunki.csproj.CoreCompileInputs.cache
