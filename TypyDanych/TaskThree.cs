@@ -17,7 +17,7 @@ namespace DataTypes
             int b;
             Int32.TryParse(line, out b);
 
-            double diagonal = Math.Pow(a*b,0.5);
+            double diagonal = Math.Sqrt(a*b);
             Console.WriteLine(diagonal);
         }
     }
