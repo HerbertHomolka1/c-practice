@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿// użyte dla linii 120: return winCon.Any(x => x == true); 
+using System.Linq;
 
 namespace TicTacToe 
 {
@@ -10,7 +11,7 @@ namespace TicTacToe
         {
          int turn = 1;
          char symbol = 'X';
-         while (!CheckForVictors(symbol))
+         while (!CheckForVictors(symbol)&&!CheckIfBoardFull())
          {
             if (turn % 2 == 0)
             {
@@ -30,7 +31,16 @@ namespace TicTacToe
             turn ++;
          }
          ShowBoard();
-         Console.WriteLine($"Gratulacje! {symbol} wygrał!!!");
+
+         if (CheckForVictors(symbol))
+         {
+            Console.WriteLine($"Gratulacje! {symbol} wygrał!!!");
+         }
+         else
+         {
+            Console.WriteLine("Remis.");
+         }
+         
          
         }
         public void GetRowAndColumnFromUser(out int row, out int column)
@@ -41,19 +51,22 @@ namespace TicTacToe
                row = Utils.GetUserInputAsIntiger();
                Console.WriteLine("Podaj columnę");
                column = Utils.GetUserInputAsIntiger();
-               if (!CheckIfFieldIsAvailable(row,column))
-               {
-                  Console.WriteLine("To pole jest już zajęte...");
-               }
-               if (!Utils.ValidateInput(row,1,3)||!Utils.ValidateInput(column,1,3))
+               row --;
+               column --;
+               if (!Utils.ValidateInput(row,0,2)||!Utils.ValidateInput(column,0,2))
                {
                   Console.WriteLine("Wybierz liczbę od 1 do 3");
                }
-            }
-            while (!CheckIfFieldIsAvailable(row,column) ||!Utils.ValidateInput(row,1,3)||!Utils.ValidateInput(column,1,3));
+               else if (!CheckIfFieldIsAvailable(row,column))
+               {
+                  Console.WriteLine("To pole jest już zajęte...");
+               }
 
-            row --;
-            column --;
+            }
+            while (!CheckIfFieldIsAvailable(row,column) ||!Utils.ValidateInput(row,0,2)||!Utils.ValidateInput(column,0,2));
+
+
+            Console.WriteLine($"{row} {column}");
         }
 
         public void ShowBoard()
@@ -73,39 +86,25 @@ namespace TicTacToe
         }
         public void UpdateBoard(int row, int column, char symbol)
         {
-         for (int i = 0; i < boardState.GetLength(0) ; i++)
-            {
-               for (int j = 0; j < boardState.GetLength(1) ; j++)
-               {
-                  if (i == row && j == column)
-                  {
-                     boardState[i,j] = symbol;
-                     break;
-                  }
-               }    
-              
-            }
+
+            boardState[row,column] = symbol;
         }
         public bool CheckIfFieldIsAvailable(int row, int column)
         {
-         for (int i = 0; i < boardState.GetLength(0) ; i++)
+            if (Utils.ValidateInput(row,0,2) && Utils.ValidateInput(column,0,2))
             {
-               for (int j = 0; j < boardState.GetLength(1) ; j++)
-               {
-                  if (i == row && j == column)
-                  {
-                     return boardState[i,j] != 'O' && boardState[i,j] != 'X';
-                  }
-               }    
-              
+               return boardState[row,column] != 'O' && boardState[row,column] != 'X';
             }
-            return true;
+            else 
+            {
+               return false;
+            }
+            
         }
+          
 
         public bool CheckForVictors(char symbol)
         {
-         
-
            List<bool> winCon = new List<bool>();
            winCon.Add(boardState[0,0] == symbol && boardState[1,1] == symbol && boardState[2,2] == symbol);
            winCon.Add(boardState[2,0] == symbol && boardState[1,1] == symbol && boardState[0,2] == symbol);
@@ -118,5 +117,22 @@ namespace TicTacToe
 
            return winCon.Any(x => x == true);
         }
+
+        public bool CheckIfBoardFull() 
+        {
+         for (int i = 0; i < boardState.GetLength(0) ; i++)
+            {
+               for (int j = 0; j < boardState.GetLength(1) ; j++)
+               {
+                  if (!(boardState[i,j] == 'X' || boardState[i,j] == 'O'))
+                  {
+                     return false;
+                  }  
+               }    
+               
+            }
+            return true;
+
     }
+}
 }
